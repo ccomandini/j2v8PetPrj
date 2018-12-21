@@ -35,7 +35,7 @@ public class NodeJSMimicSynchronousExecutionTestCase {
 
             String out = StringUtils.abbreviate(stringBuilder.toString(), 300);
 
-            System.out.println("NodeJS execution >>> "+out);
+            System.out.println("NodeJS execution (mimic synch) >>> "+out);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,8 +26,8 @@ public class NodeJSSimpleTestCase {
 
             JavaCallback callback = new JavaCallback() {
                 public Object invoke(V8Object receiver, V8Array parameters) {
-                    System.out.println("# of return parameters >> "+parameters.length());
-                    System.out.println(StringUtils.abbreviate(parameters.getString(0),300) );
+                    //System.out.println("# of return parameters >> "+parameters.length());
+                    System.out.println("NodeJS execution (asynch callback) >>> "+StringUtils.abbreviate(parameters.getString(0),300) );
                     return null;
                 }
             };
