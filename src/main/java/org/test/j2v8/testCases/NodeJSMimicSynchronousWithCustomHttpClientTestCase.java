@@ -2,18 +2,14 @@ package org.test.j2v8.testCases;
 
 import com.eclipsesource.v8.JavaCallback;
 import com.eclipsesource.v8.NodeJS;
-import com.eclipsesource.v8.V8Array;
-import com.eclipsesource.v8.V8Object;
-import com.mashape.unirest.http.Unirest;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
-import org.test.j2v8.jsCallbacks.CustomJavaCallback;
+import org.test.j2v8.jsCallbacks.StringBuilderCallback;
 import org.test.j2v8.NodeJSExecutor;
+import org.test.j2v8.jsCallbacks.HttpClientWithHttpOkCallback;
+import org.test.j2v8.jsCallbacks.HttpClientWithUnirestCallback;
 
 /**
  * c.comandini
@@ -22,45 +18,20 @@ import org.test.j2v8.NodeJSExecutor;
 public class NodeJSMimicSynchronousWithCustomHttpClientTestCase {
 
 
-    private JavaCallback javaHttpClient = new JavaCallback() {
-        public Object invoke(V8Object receiver, V8Array parameters) {
-            String output = "";
-            try {
-                String url = parameters.getString(0);
-                long start = System.currentTimeMillis();
-                output = Unirest.get(url).asString().getBody();
-                long end = System.currentTimeMillis();
-                System.out.println("unirest done in " + (end-start)+" msecs");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return output;
-        }
-    };
+    private JavaCallback javaHttpClientUsingUnirest = new HttpClientWithUnirestCallback();
 
-    private OkHttpClient okHttpClient = new OkHttpClient();
 
-    private JavaCallback javaHttpClientV2 = new JavaCallback() {
-        public Object invoke(V8Object receiver, V8Array parameters) {
-            String output = "";
-            try {
-                long start = System.currentTimeMillis();
+    private JavaCallback javaHttpClientUsingHttpOk = new HttpClientWithHttpOkCallback();
 
-                Request request = new Request.Builder()
-                        .url("https://www.google.com")
-                        .build();
-                Response response = okHttpClient.newCall(request).execute();
-                output = response.body().string();
-                long end = System.currentTimeMillis();
-                System.out.println("httpOk done in " + (end - start) + " msecs");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return output;
-        }
-    };
+    public void runWithUnirest(){
+        run(false);
+    }
 
-    public void run(boolean useHttpOk) {
+    public void runWithHttpOk(){
+        run(true);
+    }
+
+    private void run(boolean useHttpOk) {
         NodeJS nodeJS = null;
         try {
 
@@ -71,9 +42,9 @@ public class NodeJSMimicSynchronousWithCustomHttpClientTestCase {
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            nodeJS.getRuntime().registerJavaMethod(useHttpOk ? javaHttpClientV2 : javaHttpClient, "javaHttpClient");
+            nodeJS.getRuntime().registerJavaMethod(useHttpOk ? javaHttpClientUsingHttpOk : javaHttpClientUsingUnirest, "javaHttpClient");
 
-            nodeJS.getRuntime().registerJavaMethod(new CustomJavaCallback(stringBuilder), "javaCallback");//it's adding a new js function (javaCallback) that binds a java function within the javascript script
+            nodeJS.getRuntime().registerJavaMethod(new StringBuilderCallback(stringBuilder), "javaCallback");//it's adding a new js function (javaCallback) that binds a java function within the javascript script
 
             nodeJS.exec(nodeScript);
 

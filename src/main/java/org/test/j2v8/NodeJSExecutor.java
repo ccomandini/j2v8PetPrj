@@ -4,6 +4,7 @@ import com.mashape.unirest.http.Unirest;
 import org.test.j2v8.testCases.NodeJSSimpleTestCase;
 import org.test.j2v8.testCases.NodeJSMimicSynchronousExecutionTestCase;
 import org.test.j2v8.testCases.NodeJSMimicSynchronousWithCustomHttpClientTestCase;
+import org.test.j2v8.testCases.NodeJSWithExternalModuleTestCase;
 import org.test.j2v8.testCases.SimpleJavascriptTestCase;
 
 /**
@@ -13,6 +14,14 @@ import org.test.j2v8.testCases.SimpleJavascriptTestCase;
 public class NodeJSExecutor {
 
     public static void main(String... args) {
+        long start = System.currentTimeMillis();
+        NodeJSWithExternalModuleTestCase testCase = new NodeJSWithExternalModuleTestCase();
+        testCase.run();
+        long end = System.currentTimeMillis();
+        System.out.println((end - start) + " msecs");
+    }
+
+    public static void firstSetOfTests() {
         doHttpClientsWarmup();
         System.out.println("=========== 0 ===========");
         long start = System.currentTimeMillis();
@@ -35,13 +44,13 @@ public class NodeJSExecutor {
         System.out.println("\n\n=========== 3 ===========");
         start = System.currentTimeMillis();
         NodeJSMimicSynchronousWithCustomHttpClientTestCase nodeJSTestCase3 = new NodeJSMimicSynchronousWithCustomHttpClientTestCase();
-        nodeJSTestCase3.run(false);
+        nodeJSTestCase3.runWithUnirest();
         end = System.currentTimeMillis();
         System.out.println((end - start) + " msecs");
         System.out.println("\n\n=========== 4 ===========");
         start = System.currentTimeMillis();
         nodeJSTestCase3 = new NodeJSMimicSynchronousWithCustomHttpClientTestCase();
-        nodeJSTestCase3.run(true);
+        nodeJSTestCase3.runWithHttpOk();
         end = System.currentTimeMillis();
         System.out.println((end - start) + " msecs");
         System.out.println("\n\n=========== END ===========");

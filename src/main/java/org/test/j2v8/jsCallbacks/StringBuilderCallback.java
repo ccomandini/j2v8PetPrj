@@ -9,11 +9,11 @@ import com.eclipsesource.v8.V8Object;
  * c.comandini
  * 21/12/2018 at 17:55
  **/
-public class CustomJavaCallback implements JavaCallback {
+public class StringBuilderCallback implements JavaCallback {
 
     private final StringBuilder externalStringBuilder;
 
-    public CustomJavaCallback(StringBuilder externalStringBuilder) {
+    public StringBuilderCallback(StringBuilder externalStringBuilder) {
         this.externalStringBuilder = externalStringBuilder;
     }
 

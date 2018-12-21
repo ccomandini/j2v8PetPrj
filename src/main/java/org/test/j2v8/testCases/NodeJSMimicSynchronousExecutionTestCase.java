@@ -5,7 +5,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.apache.commons.lang3.StringUtils;
-import org.test.j2v8.jsCallbacks.CustomJavaCallback;
+import org.test.j2v8.jsCallbacks.StringBuilderCallback;
 import org.test.j2v8.NodeJSExecutor;
 
 /**
@@ -25,7 +25,7 @@ public class NodeJSMimicSynchronousExecutionTestCase {
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            nodeJS.getRuntime().registerJavaMethod(new CustomJavaCallback(stringBuilder), "javaCallback");//it's adding a new js function (javaCallback) that binds a java function within the javascript script
+            nodeJS.getRuntime().registerJavaMethod(new StringBuilderCallback(stringBuilder), "javaCallback");//it's adding a new js function (javaCallback) that binds a java function within the javascript script
 
             nodeJS.exec(nodeScript);
 
