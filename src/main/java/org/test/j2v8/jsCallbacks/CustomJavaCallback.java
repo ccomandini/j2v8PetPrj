@@ -1,4 +1,4 @@
-package org.test.j2v8;
+package org.test.j2v8.jsCallbacks;
 
 import com.eclipsesource.v8.JavaCallback;
 import com.eclipsesource.v8.V8Array;

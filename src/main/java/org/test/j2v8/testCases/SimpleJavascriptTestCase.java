@@ -1,4 +1,4 @@
-package org.test.j2v8;
+package org.test.j2v8.testCases;
 
 import com.eclipsesource.v8.V8;
 
@@ -6,7 +6,7 @@ import com.eclipsesource.v8.V8;
  * c.comandini
  * 21/12/2018 at 16:06
  **/
-public class SimpleJavascript {
+public class SimpleJavascriptTestCase {
 
     public void run() {
         V8 runtime = null;

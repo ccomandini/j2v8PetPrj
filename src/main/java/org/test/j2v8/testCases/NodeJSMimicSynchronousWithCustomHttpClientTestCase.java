@@ -1,4 +1,4 @@
-package org.test.j2v8;
+package org.test.j2v8.testCases;
 
 import com.eclipsesource.v8.JavaCallback;
 import com.eclipsesource.v8.NodeJS;
@@ -12,12 +12,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.test.j2v8.jsCallbacks.CustomJavaCallback;
+import org.test.j2v8.NodeJSExecutor;
 
 /**
  * c.comandini
  * 21/12/2018 at 17:51
  **/
-public class NodeJSTestCase3 {
+public class NodeJSMimicSynchronousWithCustomHttpClientTestCase {
 
 
     private JavaCallback javaHttpClient = new JavaCallback() {
@@ -61,19 +63,6 @@ public class NodeJSTestCase3 {
     public void run(boolean useHttpOk) {
         NodeJS nodeJS = null;
         try {
-
-            /*
-            if(useHttpOk){
-                try {
-                    Request request = new Request.Builder()
-                            .url("https://www.google.com")
-                            .build();
-                    Response response = okHttpClient.newCall(request).execute();
-                    response.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
 
             Path path = Paths.get(NodeJSExecutor.class.getClassLoader().getResource("test-script-java-httpclient.js").toURI());
             File nodeScript = path.toFile(); //can be something downloaded through AWS S3 ...
