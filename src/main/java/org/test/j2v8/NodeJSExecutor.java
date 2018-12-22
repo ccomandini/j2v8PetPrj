@@ -17,9 +17,9 @@ import org.test.j2v8.testCases.bad.NodeJSTestCaseStopProcess;
 public class NodeJSExecutor {
 
     public static void main(String... args) {
-        //notStandardModuleUsage();
-        //System.out.println("=========== tests ===========");
-        //firstSetOfTests();
+        notStandardModuleUsage();
+        System.out.println("=========== tests ===========");
+        firstSetOfTests();
         System.out.println("=========== bad cases ===========");
         badCases();
     }
